@@ -5,6 +5,8 @@ nycflights13::flights #loading flights data
 
 flights <- tbl_df(flights) #convert to local data frame
 flights
+getwd()
+write_csv(flights, "data/flights.csv")
 
 print(flights, n=20) #specify to see more than usual 10 rows of data
 
@@ -48,6 +50,8 @@ flight_speed <- flights %>%
   mutate(speed=distance/air_time*60)
 flight_speed
 
+write_csv(flight_speed,"data/flight_speed.csv")
+
 #group_by: creates the group that will be operated on
 #summarise: uses the provided aggregation function to summarise each group
 
@@ -64,13 +68,18 @@ flights %>%
 delay_flights <- flights %>% #calculate minimum and maximum arrival and departure delays
   group_by(carrier) %>%
   summarise_each(funs(min(.,na.rm = T),max(.,na.rm = T)),matches("delay"))
- delay_flights 
+ delay_flights
+ 
+ write_csv(delay_flights,"data/delay_flights.csv")
 
  flight_count <- flights %>% #count flights for that month and day.
    group_by(month,day) %>% 
    summarise(flight_count=n()) %>% 
    arrange(flight_count)
+ 
  flight_count
+ 
+ write_csv(flight_count,"data/flight_count.csv")
    
  flights %>% 
    group_by(month,day) %>% 
